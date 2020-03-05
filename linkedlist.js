@@ -172,6 +172,11 @@ function findLast (ll) {
  *      1.)  Starting at head, keep track of current, parent, and grandparent nodes
  *      2.)  Navigate to next node.  Set parentNode.next = grandparentNode.  counter++
  *      3.)  Once counter = size(list), List.head = parentNode
+ * 
+ *  Note: 
+ *      I think you need the grandparent or you will lose the ability to traverse the list
+ *      when you update each link, but I could be wrong.  You might just need the parent 
+ *      and the current.
  */
 function reverselist(ll){
     let counter = 1;
@@ -235,14 +240,14 @@ function middleoflist (ll) {
  *  Algorithm:
  *      We know that no node.next will equal null if circular
  *      We know that node.next will eventually equal null if linear
- *      We know that CurrentNode.next will equal PrevNode at some point if circular
+ *      We know that CurrentNode.next will equal a  previous Node at some point if circular
  * 
  *      1.) Start cycling through linked list. 
  *      2.) If CurrNode.next = PrevNode
  */
 
  //This is actually incomplete.  It only checks the node before it and not the whole list
-function cyclelist(ll){//1-2-3-1-23-123 
+function cycleListBasic(ll){//1-2-3-1-23-123 
     let circular;
     let currentNode = ll.head;
     let prevNode = ll.head;
@@ -253,11 +258,35 @@ function cyclelist(ll){//1-2-3-1-23-123
     }
 
     if (currentNode.next === null) {
-        circular = false;
+        return circular = false;
     } else {
         circular = true;
     }    
     return circular;
+}
+
+function cycleList(ll){//
+    console.log('test test')
+    let currentNode = ll.head;
+    let nodeArray = [];
+    if (currentNode.next === null) {
+       return false;
+    } else {
+        
+        while(currentNode.next !== null) {
+            for (let i = 0; i < nodeArray.length; i++) {
+                if (nodeArray && (nodeArray[i] == currentNode)) {
+                    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                    return true
+                }    
+            }
+        nodeArray.push(currentNode)
+        currentNode = currentNode.next
+        if(currentNode.next === null) {
+            return false
+        }
+        }
+    }    
 }
 
 
@@ -290,7 +319,7 @@ function main(){
   console.log(findLast(list).value)
   console.log(thirdfromend(list).value);
   console.log(middleoflist(list).value);
-  console.log(cyclelist(list))
+  console.log('Is it a circular list?', cycleList(list))
   
   console.log("this is prevlist")
   display(list);
