@@ -240,6 +240,8 @@ function middleoflist (ll) {
  *      1.) Start cycling through linked list. 
  *      2.) If CurrNode.next = PrevNode
  */
+
+ //This is actually incomplete.  It only checks the node before it and not the whole list
 function cyclelist(ll){//1-2-3-1-23-123 
     let circular;
     let currentNode = ll.head;
