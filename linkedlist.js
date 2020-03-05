@@ -159,24 +159,37 @@ function findLast (ll) {
     tempNode = tempNode.next;
   }
   return tempNode;
-}                                             //b-a b-a
-function reverselist(ll){      ///  123456   6-5 4-5    
-    let lastone = findLast(ll);
-    const newH=findLast(ll);
-    let temp = findPrevious(ll,lastone.value)
-    const Size = size(ll)
-    let i = 0;
-    while(i<Size && temp!==null){
-        let a=temp.value;
-        lastone.next=temp; //creates new last one
-        lastone=temp;
-        temp = findPrevious(ll,a)//change the temp to the one before last value
-        i++
-        if(i==Size-1){
-            temp=null;
-        }
+} 
+
+/**
+ * 
+ * Reverse a List:
+ *  Input: a linked list (A, B, C, D, E)
+ *  Output: the same list with the links going in the opposite direction (E, D, C, B, A)
+ * 
+ *  Algorithm:
+ *      0.)  Initiate counter at 1
+ *      1.)  Starting at head, keep track of current, parent, and grandparent nodes
+ *      2.)  Navigate to next node.  Set parentNode.next = grandparentNode.  counter++
+ *      3.)  Once counter = size(list), List.head = parentNode
+ */
+function reverselist(ll){
+    let counter = 1;
+    let sizeOfList = size(ll);
+    let currentNode = ll.head;
+    let parentNode = null;
+    let grandparentNode = null;
+
+    while (counter <= sizeOfList) {
+        grandparentNode = parentNode
+        parentNode = currentNode
+        currentNode = currentNode.next
+        parentNode.next = grandparentNode
+        counter++
     }
-    ll.head=newH;
+
+    ll.head = parentNode
+    return ll;
 }
 function thirdfromend (ll) {
     let tempNode = ll.head;
@@ -211,19 +224,38 @@ function middleoflist (ll) {
     return tempNode;
 
 }
+
+/**
+ * 
+ * Cycle in a list:
+ *  Input/Output:
+ *      Input is a linked list
+ *      Output is true/false based on if list is circular
+ * 
+ *  Algorithm:
+ *      We know that no node.next will equal null if circular
+ *      We know that node.next will eventually equal null if linear
+ *      We know that CurrentNode.next will equal PrevNode at some point if circular
+ * 
+ *      1.) Start cycling through linked list. 
+ *      2.) If CurrNode.next = PrevNode
+ */
 function cyclelist(ll){//1-2-3-1-23-123 
-    let tempnode=ll.head;
-    let tempnode2=ll.head;
-    while ((tempnode!==null) ) {
-        if(tempnode2!==tempnode.next){
-            return true
-        }
-        while((tempnode2!==null)){   
-            tempnode2=tempnode2.next;
-        }
-        tempnode = tempnode.next;
+    let circular;
+    let currentNode = ll.head;
+    let prevNode = ll.head;
+
+    while (currentNode.next !== null && currentNode.next !== prevNode) {
+        prevNode = currentNode;
+        currentNode = currentNode.next;
     }
-    return false;
+
+    if (currentNode.next === null) {
+        circular = false;
+    } else {
+        circular = true;
+    }    
+    return circular;
 }
 
 
@@ -254,14 +286,17 @@ function main(){
   console.log(empty(list));
   //console.log(findPrevious(list, "Helo").value);
   console.log(findLast(list).value)
+  console.log(thirdfromend(list).value);
+  console.log(middleoflist(list).value);
+  console.log(cyclelist(list))
+  
   console.log("this is prevlist")
-  //display(list);
-  //reverselist(list);
+  display(list);
+  reverselist(list);
     console.log("this is reverselist")
-  //display(list);
-    console.log(thirdfromend(list).value);
-    console.log(middleoflist(list).value);
-    console.log(cyclelist(list))
+  display(list);
+    
+
 
 }
 main();
