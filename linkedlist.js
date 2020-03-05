@@ -264,7 +264,13 @@ function cycleListBasic(ll){//1-2-3-1-23-123
     }    
     return circular;
 }
-
+/**
+ * 
+ *  Building on the approach above, but we store every node in an array as we go.  Then on 
+ *  each cycle, we check to see if an identical node has been stored in the array already.  
+ * We return true as soon as any identical nodes are found, or once we get to a node with
+ *  .next = null.
+ */
 function cycleList(ll){//
     console.log('test test')
     let currentNode = ll.head;
